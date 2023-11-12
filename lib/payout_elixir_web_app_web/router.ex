@@ -26,6 +26,7 @@ defmodule PayoutElixirWebAppWeb.Router do
 
     live "/payments/:id", PaymentLive.Show, :show
     live "/payments/:id/show/edit", PaymentLive.Show, :edit
+    live "/payments/:id/show/pay", PaymentLive.Show, :pay
   end
 
   # Other scopes may use custom stacks.

@@ -5,7 +5,15 @@
     <.link patch={~p"/payments/#{@payment}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit payment</.button>
     </.link>
+
+    <.link 
+      :if={!@payment.ispayed}
+      phx-click={JS.push("pay", value: %{id: @payment.id})}
+      data-confirm={"You will pay #{@payment.amount}€"}>
+      <.button>Pay payment</.button>
+    </.link>
   </:actions>
+  
 </.header>
 
 <.list>

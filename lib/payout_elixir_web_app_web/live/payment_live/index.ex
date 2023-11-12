@@ -38,6 +38,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
   end
 
   @impl true
+  @spec handle_event(<<_::48>>, map(), Phoenix.LiveView.Socket.t()) :: {:noreply, map()}
   def handle_event("delete", %{"id" => id}, socket) do
     payment = Payments.get_payment!(id)
     {:ok, _} = Payments.delete_payment(payment)

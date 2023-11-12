@@ -21,6 +21,20 @@ defmodule PayoutElixirWebApp.Payments do
     Repo.all(Payment)
   end
 
+  def list_unpayed_payments do
+    Repo.all(
+      from p in Payment,
+      where: p.ispayed != true
+    )
+  end
+
+  def list_payed_payments do
+    Repo.all(
+      from p in Payment,
+      where: p.ispayed == true
+    )
+  end
+
   @doc """
   Gets a single payment.
 
@@ -100,5 +114,11 @@ defmodule PayoutElixirWebApp.Payments do
   """
   def change_payment(%Payment{} = payment, attrs \\ %{}) do
     Payment.changeset(payment, attrs)
+  end
+
+  def do_payment(id) do
+    Repo.get_by(Payment, id: id)
+    |> Ecto.Changeset.change(%{ispayed: true})
+    |> Repo.update()
   end
 end

@@ -1,5 +1,13 @@
 <.header>
-  Listing Payments
+  Paid Payments
+  <span>
+  ---------------
+
+  </span>
+</.header>
+
+<.header>
+  Awaiting Payments
   <:actions>
     <.link patch={~p"/payments/new"}>
       <.button>New Payment</.button>
@@ -12,6 +20,7 @@
   rows={@streams.payments}
   row_click={fn {_id, payment} -> JS.navigate(~p"/payments/#{payment}") end}
 >
+
   <:col :let={{_id, payment}} label="Amount"><%= payment.amount %></:col>
   <:col :let={{_id, payment}} label="Description"><%= payment.description %></:col>
   <:col :let={{_id, payment}} label="Method"><%= payment.method %></:col>
