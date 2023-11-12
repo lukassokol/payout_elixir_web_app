@@ -18,6 +18,14 @@ defmodule PayoutElixirWebAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    #live "/payments", PaymentsLive
+    live "/payments", PaymentLive.Index, :index
+    live "/payments/new", PaymentLive.Index, :new
+    live "/payments/:id/edit", PaymentLive.Index, :edit
+
+    live "/payments/:id", PaymentLive.Show, :show
+    live "/payments/:id/show/edit", PaymentLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
