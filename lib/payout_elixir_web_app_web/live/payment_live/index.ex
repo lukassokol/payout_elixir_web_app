@@ -6,10 +6,15 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :payments, Payments.list_payments())}
+    payments = Payments.list_payments()
+    {:ok, stream(socket, :payments, payments, reset: true) }
   end
 
   @impl true
+  @spec handle_params(any(), any(), %{
+          :assigns => atom() | %{:live_action => :edit | :index | :new, optional(any()) => any()},
+          optional(any()) => any()
+        }) :: {:noreply, map()}
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
@@ -44,5 +49,87 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
     {:ok, _} = Payments.delete_payment(payment)
 
     {:noreply, stream_delete(socket, :payments, payment)}
+  end
+
+  @impl true
+  def handle_event("show_payed", _params, socket) do
+    {:noreply, stream(socket, :payments, Payments.list_payed_payments(), reset: true)}
+  end
+
+  @impl true
+  def handle_event("show_unpayed", _params, socket) do
+    {:noreply, stream(socket, :payments, Payments.list_unpayed_payments(), reset: true)}
+  end
+
+  @impl true
+  def handle_event("show_all", _params, socket) do
+    {:noreply, stream(socket, :payments, Payments.list_payments(), reset: true)}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <.header>
+      <b>Payments</b>
+      <:actions>
+        <.link
+          phx-click={JS.push("show_all")}>
+          <.button>Show all</.button>
+        </.link>
+
+        <.link
+          phx-click={JS.push("show_payed")}>
+          <.button >Show payed</.button>
+        </.link>
+
+        <.link
+          phx-click={JS.push("show_unpayed")}>
+          <.button >Show unpayed</.button>
+        </.link>
+
+        <.link patch={~p"/payments/new"}>
+          <.button>New Payment</.button>
+        </.link>
+      </:actions>
+    </.header>
+
+    <.table
+      id="payments"
+      rows={@streams.payments}
+      row_click={fn {_id, payment} -> JS.navigate(~p"/payments/#{payment}") end}
+    >
+
+      <:col :let={{_id, payment}} label="Amount"><%= payment.amount %></:col>
+      <:col :let={{_id, payment}} label="Description"><%= payment.description %></:col>
+      <:col :let={{_id, payment}} label="Method"><%= payment.method %></:col>
+      <:col :let={{_id, payment}} label="Payed"><%= payment.ispayed %></:col>
+
+      <:action :let={{_id, payment}}>
+        <div class="sr-only">
+          <.link navigate={~p"/payments/#{payment}"}>Show</.link>
+        </div>
+        <.link patch={~p"/payments/#{payment}/edit"}>Edit</.link>
+      </:action>
+      <:action :let={{id, payment}}>
+        <.link
+          phx-click={JS.push("delete", value: %{id: payment.id}) |> hide("##{id}")}
+          data-confirm="Are you sure?"
+        >
+          Delete
+        </.link>
+      </:action>
+    </.table>
+
+    <.modal :if={@live_action in [:new, :edit]} id="payment-modal" show on_cancel={JS.patch(~p"/payments")}>
+      <.live_component
+        module={PayoutElixirWebAppWeb.PaymentLive.FormComponent}
+        id={@payment.id || :new}
+        title={@page_title}
+        action={@live_action}
+        payment={@payment}
+        patch={~p"/payments"}
+      />
+    </.modal>
+    """
   end
 end
