@@ -32,11 +32,11 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
   def render(assigns) do
     ~H"""
     <.header>
-      <b>Payment <%= @payment.id %></b>
-      <:subtitle>This is a payment record from your database.</:subtitle>
+      <b>Invoice <%= @payment.id %></b>
+      <:subtitle>This is a invoice record from your database.</:subtitle>
       <:actions>
         <.link patch={~p"/payments/#{@payment}/show/edit"} phx-click={JS.push_focus()}>
-          <.button>Edit payment</.button>
+          <.button>Edit invoice</.button>
         </.link>
 
         <.link
@@ -56,7 +56,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
       <:item title="Payed"><%= @payment.ispayed %></:item>
     </.list>
 
-    <.back navigate={~p"/payments"}>Back to payments</.back>
+    <.back navigate={~p"/payments"}>Back to invoices</.back>
 
     <.modal :if={@live_action == :edit} id="payment-modal" show on_cancel={JS.patch(~p"/payments/#{@payment}")}>
       <.live_component

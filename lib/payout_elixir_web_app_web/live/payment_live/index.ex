@@ -70,7 +70,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
   def render(assigns) do
     ~H"""
     <.header>
-      <b>Payments</b>
+      <b>Invoices</b>
       <:actions>
         <.link
           phx-click={JS.push("show_all")}>
@@ -88,7 +88,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
         </.link>
 
         <.link patch={~p"/payments/new"}>
-          <.button>New Payment</.button>
+          <.button>New Invoice</.button>
         </.link>
       </:actions>
     </.header>
