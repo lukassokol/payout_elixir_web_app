@@ -32,7 +32,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
   def render(assigns) do
     ~H"""
     <.header>
-      Payment <%= @payment.id %>
+      <b>Payment <%= @payment.id %></b>
       <:subtitle>This is a payment record from your database.</:subtitle>
       <:actions>
         <.link patch={~p"/payments/#{@payment}/show/edit"} phx-click={JS.push_focus()}>

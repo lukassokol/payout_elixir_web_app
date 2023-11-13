@@ -108,12 +108,13 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
         <div class="sr-only">
           <.link navigate={~p"/payments/#{payment}"}>Show</.link>
         </div>
-        <.link patch={~p"/payments/#{payment}/edit"}>Edit</.link>
+        <.link patch={~p"/payments/#{payment}/edit"} >Edit</.link>
       </:action>
       <:action :let={{id, payment}}>
         <.link
           phx-click={JS.push("delete", value: %{id: payment.id}) |> hide("##{id}")}
           data-confirm="Are you sure?"
+          style="color: red"
         >
           Delete
         </.link>
