@@ -29,6 +29,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
   end
 
   @impl true
+  @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <.header>

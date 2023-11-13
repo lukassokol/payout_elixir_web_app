@@ -8,8 +8,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
-        <:subtitle>Use this form to manage payment records in your database.</:subtitle>
+        Invoice
       </.header>
 
       <.simple_form
@@ -17,6 +16,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.FormComponent do
         id="payment-form"
         phx-target={@myself}
         phx-change="validate"
+        phx-auto-recover="recover_form"
         phx-submit="save"
       >
         <.input field={@form[:amount]} type="number" label="Amount" step="any" />
@@ -28,6 +28,19 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.FormComponent do
       </.simple_form>
     </div>
     """
+  end
+
+  @impl true
+  def handle_event("recover_form", %{"payment" => payment_params}, socket) do
+    IO.warn("Recovering form!")
+    IO.inspect(payment_params)
+
+    changeset =
+      socket.assigns.payment
+      |> Payments.change_payment(payment_params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
   end
 
   @impl true
