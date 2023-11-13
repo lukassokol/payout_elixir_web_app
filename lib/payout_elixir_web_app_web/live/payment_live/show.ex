@@ -25,7 +25,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
   @impl true
   def handle_event("pay", %{"id" => id}, socket) do
     Payments.do_payment(id)
-    {:noreply, socket}
+    {:noreply, socket |> put_flash(:info, "Payment updated successfully")}
   end
 
   @impl true
