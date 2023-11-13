@@ -19,7 +19,6 @@ defmodule PayoutElixirWebAppWeb.Router do
 
     get "/", PageController, :home
 
-    #live "/payments", PaymentsLive
     live "/payments", PaymentLive.Index, :index
     live "/payments/new", PaymentLive.Index, :new
     live "/payments/:id/edit", PaymentLive.Index, :edit

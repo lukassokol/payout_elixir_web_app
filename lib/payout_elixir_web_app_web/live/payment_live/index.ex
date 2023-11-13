@@ -52,12 +52,12 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
   end
 
   @impl true
-  def handle_event("show_payed", _params, socket) do
+  def handle_event("show_paid", _params, socket) do
     {:noreply, stream(socket, :payments, Payments.list_payed_payments(), reset: true)}
   end
 
   @impl true
-  def handle_event("show_unpayed", _params, socket) do
+  def handle_event("show_unpaid", _params, socket) do
     {:noreply, stream(socket, :payments, Payments.list_unpayed_payments(), reset: true)}
   end
 
@@ -78,13 +78,13 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
         </.link>
 
         <.link
-          phx-click={JS.push("show_payed")}>
-          <.button >Show payed</.button>
+          phx-click={JS.push("show_paid")}>
+          <.button >Show paid</.button>
         </.link>
 
         <.link
-          phx-click={JS.push("show_unpayed")}>
-          <.button >Show unpayed</.button>
+          phx-click={JS.push("show_unpaid")}>
+          <.button >Show unpaid</.button>
         </.link>
 
         <.link patch={~p"/payments/new"}>
@@ -102,7 +102,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Index do
       <:col :let={{_id, payment}} label="Amount"><%= payment.amount %></:col>
       <:col :let={{_id, payment}} label="Description"><%= payment.description %></:col>
       <:col :let={{_id, payment}} label="Method"><%= payment.method %></:col>
-      <:col :let={{_id, payment}} label="Payed"><%= payment.ispayed %></:col>
+      <:col :let={{_id, payment}} label="Paid"><%= payment.ispaid %></:col>
 
       <:action :let={{_id, payment}}>
         <div class="sr-only">

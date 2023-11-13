@@ -25,7 +25,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
   @impl true
   def handle_event("pay", %{"id" => id}, socket) do
     Payments.do_payment(id)
-    {:noreply, socket |> put_flash(:info, "Payment updated successfully")}
+    {:noreply, socket |> put_flash(:info, "Payment paid successfully")}
   end
 
   @impl true
@@ -41,7 +41,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
         </.link>
 
         <.link
-          :if={!@payment.ispayed}
+          :if={!@payment.ispaid}
           phx-click={JS.push("pay", value: %{id: @payment.id})}
           data-confirm={"You will pay #{@payment.amount}€"}>
           <.button>Pay payment</.button>
@@ -54,7 +54,7 @@ defmodule PayoutElixirWebAppWeb.PaymentLive.Show do
       <:item title="Amount"><%= @payment.amount %></:item>
       <:item title="Description"><%= @payment.description %></:item>
       <:item title="Method"><%= @payment.method %></:item>
-      <:item title="Payed"><%= @payment.ispayed %></:item>
+      <:item title="Paid"><%= @payment.ispaid %></:item>
     </.list>
 
     <.back navigate={~p"/payments"}>Back to invoices</.back>

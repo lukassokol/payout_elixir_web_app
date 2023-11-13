@@ -6,7 +6,7 @@ defmodule PayoutElixirWebApp.Payments.Payment do
     field :description, :string
     field :amount, :decimal
     field :method, :string
-    field :ispayed, :boolean
+    field :ispaid, :boolean
 
     timestamps(type: :utc_datetime)
   end

@@ -24,14 +24,14 @@ defmodule PayoutElixirWebApp.Payments do
   def list_unpayed_payments do
     Repo.all(
       from p in Payment,
-      where: p.ispayed != true
+      where: p.ispaid != true
     )
   end
 
   def list_payed_payments do
     Repo.all(
       from p in Payment,
-      where: p.ispayed == true
+      where: p.ispaid == true
     )
   end
 
@@ -118,7 +118,7 @@ defmodule PayoutElixirWebApp.Payments do
 
   def do_payment(id) do
     Repo.get_by(Payment, id: id)
-    |> Ecto.Changeset.change(%{ispayed: true})
+    |> Ecto.Changeset.change(%{ispaid: true})
     |> Repo.update()
   end
 end
